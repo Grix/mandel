@@ -165,29 +165,44 @@ if (!done)
           <argument>
             <kind>1</kind>
             <string>if (moving == 1)
-{
-    x_width = x+(mouse_x/room_width)*x_width - new_x;
-    y_width = x_width;
-    x = new_x;
-    y = new_y;
-    start_x = 0;
-    
-    n_it = 1000000000000;
+{   
     var ix_width = surface_get_width(surf_show);
     var iy_width = surface_get_height(surf_show);
-    var ix, iy;
-    for (ix = 0; ix &lt; ix_width; ix++)
+    var ix, iy; 
+   /* n_it = 1000000000000;
+    
+    show_debug_message(floor((new_x-x)/x_width*ix_width-1));
+    show_debug_message(ceil((new_x-x+(x+(mouse_x/room_width)*x_width - new_x))/x_width*ix_width+1));
+    for (ix = floor((new_x-x)/x_width*ix_width-1); ix &lt; ceil((new_x-x+(x+(mouse_x/room_width)*x_width - new_x))/x_width*ix_width+1); ix++)
     {
-        for (iy = 0; iy &lt; iy_width; iy++)
+        for (iy = floor((new_y-y)/y_width*iy_width-1); iy &lt; ceil((new_y-y+(x+(mouse_x/room_width)*x_width - new_x))/y_width*iy_width+1); iy++)
         {   
             if (mandel_grid[# ix, iy] != 0) &amp;&amp; (mandel_grid[# ix, iy] &lt; n_it)
                 n_it = mandel_grid[# ix, iy];
         }
     }
     if (n_it == 1000000000000)
-        n_it = 8;
-    n_it = floor(n_it/8)*8;
+    {
+        for (ix = 0; ix &lt; ix_width; ix++)
+        {
+            for (iy = 0; iy &lt; iy_width; iy++)
+            {   
+                if (mandel_grid[# ix, iy] != 0) &amp;&amp; (mandel_grid[# ix, iy] &lt; n_it)
+                    n_it = mandel_grid[# ix, iy];
+            }
+        }
+    }
+    if (n_it == 1000000000000)
+        n_it = 16;*/
+    n_it = 0;
+    n_it = floor(n_it/16)*16;
     n_it_min = n_it;
+    
+    x_width = x+(mouse_x/room_width)*x_width - new_x;
+    y_width = x_width;
+    x = new_x;
+    y = new_y;
+    start_x = 0;
     
     for (ix = 0; ix &lt; ix_width; ix++)
     {
