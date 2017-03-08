@@ -28,6 +28,7 @@
             <string>draw_enable_alphablend(false);
 draw_set_alpha_test(false);
 math_set_epsilon(0);
+gml_release_mode(true);
 
 x = -2;
 y = -2;
@@ -55,6 +56,7 @@ for (ix = 0; ix &lt; ix_width; ix++)
         zi_grid[# ix, iy] = 0;
     }
 }
+it_step = 16;
 n_it = 8;
 n_it_min = 0;
 start_x = 0;
@@ -99,7 +101,7 @@ for (ix = start_x; ix &lt; ix_width; ix++)
         var zi = zi_grid[# ix, iy];
         var zrsqr = zr*zr;
         var zisqr = zi*zi;
-        for (it = 0; it &lt; 16; it++)
+        for (it = 0; it &lt; it_step; it++)
         {
             if (zrsqr + zisqr &gt; 4.0)
             {
@@ -126,7 +128,8 @@ for (ix = start_x; ix &lt; ix_width; ix++)
 if (!done)
 {
     done = true;
-    n_it += 16;
+    n_it += it_step;
+    it_step = 16;
     surface_set_target(surf_show);
     draw_clear(c_black);
     for (ix = 0; ix &lt; ix_width; ix++)
@@ -169,7 +172,7 @@ if (!done)
     var ix_width = surface_get_width(surf_show);
     var iy_width = surface_get_height(surf_show);
     var ix, iy; 
-   /* n_it = 1000000000000;
+    it_step = 5000;
     
     show_debug_message(floor((new_x-x)/x_width*ix_width-1));
     show_debug_message(ceil((new_x-x+(x+(mouse_x/room_width)*x_width - new_x))/x_width*ix_width+1));
@@ -177,26 +180,23 @@ if (!done)
     {
         for (iy = floor((new_y-y)/y_width*iy_width-1); iy &lt; ceil((new_y-y+(x+(mouse_x/room_width)*x_width - new_x))/y_width*iy_width+1); iy++)
         {   
-            if (mandel_grid[# ix, iy] != 0) &amp;&amp; (mandel_grid[# ix, iy] &lt; n_it)
-                n_it = mandel_grid[# ix, iy];
+            if (mandel_grid[# ix, iy] != 0) &amp;&amp; (mandel_grid[# ix, iy] &lt; it_step)
+                it_step = mandel_grid[# ix, iy];
         }
     }
-    if (n_it == 1000000000000)
+    if (it_step == 5000)
     {
         for (ix = 0; ix &lt; ix_width; ix++)
         {
             for (iy = 0; iy &lt; iy_width; iy++)
             {   
-                if (mandel_grid[# ix, iy] != 0) &amp;&amp; (mandel_grid[# ix, iy] &lt; n_it)
-                    n_it = mandel_grid[# ix, iy];
+                if (mandel_grid[# ix, iy] != 0) &amp;&amp; (mandel_grid[# ix, iy] &lt; it_step)
+                    it_step = mandel_grid[# ix, iy];
             }
         }
     }
-    if (n_it == 1000000000000)
-        n_it = 16;*/
     n_it = 0;
-    n_it = floor(n_it/16)*16;
-    n_it_min = n_it;
+    n_it_min = it_step;
     
     x_width = x+(mouse_x/room_width)*x_width - new_x;
     y_width = x_width;
